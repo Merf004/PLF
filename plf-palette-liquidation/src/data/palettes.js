@@ -19,7 +19,8 @@ export const palettes = [
     featured: true,
     category: "Électronique",
     origin: "Retours Amazon",
-    estimatedProfit: "200-400€"
+    estimatedProfit: "200-400€",
+    rating: 4.8
   },
   {
     id: 2,
@@ -40,7 +41,8 @@ export const palettes = [
     featured: false,
     category: "Textile",
     origin: "Fins de série",
-    estimatedProfit: "100-250€"
+    estimatedProfit: "100-250€",
+    rating: 4.8
   },
   {
     id: 3,
@@ -61,7 +63,8 @@ export const palettes = [
     featured: true,
     category: "Maison",
     origin: "Surstock magasins",
-    estimatedProfit: "150-300€"
+    estimatedProfit: "150-300€",
+    rating: 4.8
   },
   {
     id: 4,
@@ -78,11 +81,12 @@ export const palettes = [
     weight: "25kg",
     dimensions: "120x80x100cm",
     content: ["Peluches", "Jeux de société", "Figurines", "Puzzles", "Jouets éducatifs"],
-    available: false,
+    available: true,
     featured: false,
     category: "Jouets",
     origin: "Retours grandes surfaces",
-    estimatedProfit: "200-350€"
+    estimatedProfit: "200-350€",
+    rating: 4.8
   },
   {
     id: 5,
@@ -103,7 +107,8 @@ export const palettes = [
     featured: true,
     category: "Sport",
     origin: "Liquidation magasin",
-    estimatedProfit: "250-450€"
+    estimatedProfit: "250-450€",
+    rating: 4.8
   },
   {
     id: 6,
@@ -124,7 +129,8 @@ export const palettes = [
     featured: false,
     category: "Beauté",
     origin: "Surstock laboratoire",
-    estimatedProfit: "120-200€"
+    estimatedProfit: "120-200€",
+    rating: 4.8
   }
 ];
 
