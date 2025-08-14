@@ -20,6 +20,23 @@ const Home = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [visibleSections, setVisibleSections] = useState({});
   const [playingVideo, setPlayingVideo] = useState(null);
+  const [currentBgImage, setCurrentBgImage] = useState(0);
+
+  const backgroundImages = [
+    './images/fond.jpg',
+    './images/fond2.jpg',
+    './images/fond3.jpg',
+    './images/fond4.jpg'
+  ];
+
+  // Carrousel automatique des images de fond
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBgImage(prev => (prev + 1) % backgroundImages.length);
+    }, 5000); // Change toutes les 5 secondes
+
+    return () => clearInterval(interval);
+  }, []);
 
   const featuredPalettes = getFeaturedPalettes();
 
@@ -73,30 +90,30 @@ const Home = () => {
 
   const videos = [
     {
-      title: "Découvrez nos palettes électroniques",
-      description: "Des smartphones aux tablettes, découvrez le potentiel de nos palettes tech",
+      title: "Montres de luxe: élégance au poignet, prix imbattables",
+      description: "Des modèles prestigieux, mêlant style intemporel et précision horlogère, directement à votre portée. Idéal pour les revendeurs ou les collectionneurs à la recherche de pièces uniques à prix réduit.",
       thumbnail: "./images/montre.jpg",
       url: "./videos/VID-20250807-WA0002.mp4"
     },
     {
-      title: "Comment maximiser vos profits",
-      description: "Nos experts vous montrent les meilleures stratégies de revente",
+      title: "Vêtements femmes: mode féminine à prix cassés",
+      description: "Des vêtements tendance pour toutes les saisons, issus des plus grandes marques, en palettes à prix grossiste. Une opportunité parfaite pour les boutiques et e-commerçants souhaitant élargir leur stock à faible coût.",
       thumbnail: "./images/vetement.jpg",
       url: "./videos/VID-20250807-WA0003.mp4"
     },
     {
-      title: "Témoignages de nos clients",
-      description: "Découvrez les success stories de nos revendeurs partenaires",
+      title: "Chaussures et crampons : performance et style sur le terrain",
+      description: "Des modèles prisés par les joueurs amateurs comme professionnels, disponibles en palettes à prix réduit. Idéal pour les clubs, académies et revendeurs cherchant à équiper leurs joueurs avec du matériel de qualité.",
       thumbnail: "./images/crampon.jpg",
       url: "./videos/VID-20250807-WA0006.mp4"
     }
   ];
 
   const stats = [
-    { icon: Package, number: "10,000+", label: "Palettes vendues", color: "#DC2626" },
-    { icon: Users, number: "2,500+", label: "Clients satisfaits", color: "#059669" },
-    { icon: DollarSign, number: "€2M+", label: "Profits générés", color: "#7C3AED" },
-    { icon: Award, number: "98%", label: "Taux de satisfaction", color: "#EA580C" }
+    { icon: Package, number: "500+", label: "Palettes vendues", color: "#DC2626" },
+    { icon: Users, number: "100+", label: "Clients satisfaits", color: "#059669" },
+    { icon: DollarSign, number: "€750K+", label: "Profits générés", color: "#7C3AED" },
+    { icon: Award, number: "99%", label: "Taux de satisfaction", color: "#EA580C" }
   ];
 
   const testimonials = [
@@ -129,6 +146,13 @@ const Home = () => {
       <section className="hero" id="hero">
         <div className="hero-background">
           <div className="hero-image-container">
+            {backgroundImages.map((image, index) => (
+              <div
+                key={index}
+                className={`hero-bg-image ${index === currentBgImage ? 'active' : ''}`}
+                style={{ backgroundImage: `url(${image})` }}
+              />
+            ))}
             <div className="hero-overlay"></div>
           </div>
         </div>
@@ -146,11 +170,11 @@ const Home = () => {
               </p>
               <div className="hero-stats">
                 <div className="hero-stat">
-                  <span className="stat-number">2500+</span>
+                  <span className="stat-number">100+</span>
                   <span className="stat-label">Clients</span>
                 </div>
                 <div className="hero-stat">
-                  <span className="stat-number">98%</span>
+                  <span className="stat-number">99%</span>
                   <span className="stat-label">Satisfaction</span>
                 </div>
                 <div className="hero-stat">
@@ -448,17 +472,7 @@ const Home = () => {
         }
 
         .hero-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            135deg,
-            rgba(220, 38, 38, 0.8) 0%,
-            rgba(185, 28, 28, 0.6) 50%,
-            rgba(0, 0, 0, 0.7) 100%
-          );
+          display: none;
         }
 
         .hero-content {
@@ -473,25 +487,36 @@ const Home = () => {
           animation: heroSlideUp 1s ease-out;
         }
 
-        .hero-title-main {
-          display: block;
-          font-size: 5rem;
-          font-weight: 900;
-          letter-spacing: 3px;
-          text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-          background: linear-gradient(135deg, #ffffff, #f3f4f6);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
+.hero-title-main {
+  display: block;
+  font-size: 5rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  color: #DC2626;
+  animation: plfGlow 2s ease-in-out infinite alternate;
+}
 
-        .hero-title-sub {
-          display: block;
-          font-size: 1.5rem;
-          font-weight: 600;
-          margin-top: 0.5rem;
-          opacity: 0.9;
-        }
+.hero-title-sub {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+  animation: subtitleSlide 3s ease-in-out infinite;
+}
+
+
+@keyframes subtitleSlide {
+  0%, 100% { 
+    transform: translateX(0); 
+    opacity: 0.9; 
+  }
+  50% { 
+    transform: translateX(10px); 
+    opacity: 1; 
+  }
+}
 
         .hero-description {
           font-size: 1.3rem;
@@ -580,15 +605,31 @@ const Home = () => {
           cursor: pointer;
         }
 
-        .hero-image-container {
+.hero-image-container {
   position: relative;
   width: 100%;
   height: 100%;
-  background-image: url('./images/fond.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   animation: heroZoom 20s ease-in-out infinite alternate;
+  transition: background-image 1s ease-in-out;
+}
+
+.hero-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.hero-bg-image.active {
+  opacity: 1;
 }
 
 

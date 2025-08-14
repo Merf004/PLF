@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import {
     ArrowLeft,
     Smartphone,
@@ -8,7 +9,6 @@ import {
     Clock,
     CheckCircle,
     AlertCircle,
-    Copy,
 } from 'lucide-react';
 
 const Checkout = () => {
@@ -27,10 +27,25 @@ const Checkout = () => {
     const [orderSubmitted, setOrderSubmitted] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
 
+    // ⚠️ REMPLACEZ CES VALEURS PAR VOS VRAIS IDs EmailJS
+    const EMAILJS_CONFIG = {
+        PUBLIC_KEY: 'XVJ80xmr1Da-gAINk',        // Ex: user_abc123def456
+        SERVICE_ID: 'service_sbjv2vr',        // Ex: service_xyz789
+        TEMPLATE_CLIENT: 'template_fs59kpa', // Ex: template_client123
+        TEMPLATE_ADMIN: 'template_bynug3g'   // Ex: template_admin456
+    };
+
+    // Initialiser EmailJS
+    useEffect(() => {
+        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+        console.log('📧 EmailJS initialisé avec la clé:', EMAILJS_CONFIG.PUBLIC_KEY);
+    }, []);
+
     // Charger le panier
     useEffect(() => {
         const cart = JSON.parse(localStorage.getItem('plf_cart') || '[]');
         setCartItems(cart);
+        console.log('🛒 Panier chargé:', cart);
     }, []);
 
     // Calculer les totaux
@@ -69,6 +84,95 @@ const Checkout = () => {
         }
     ];
 
+
+    // Fonction pour envoyer les emails
+    const sendOrderEmails = async (orderNumber) => {
+
+        const orderDate = new Date().toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        try {
+            console.log('📧 Début envoi des emails...');
+
+            // Préparer les données communes
+            const customerFullName = `${customerInfo.firstName} ${customerInfo.lastName}`;
+            const customerFullAddress = `${customerInfo.address}, ${customerInfo.zipCode} ${customerInfo.city}, ${customerInfo.country}`;
+            const paymentMethodName = paymentMethods.find(m => m.id === selectedPayment)?.name || selectedPayment;
+            const cartItemsText = cartItems.map(item =>
+                `${item.name} x${item.quantity} - ${(item.price * item.quantity).toFixed(2)}€`
+            ).join('\n');
+
+            // 1. EMAIL CLIENT
+            console.log('📧 Envoi email client vers:', customerInfo.email);
+            const clientParams = {
+                to_email: customerInfo.email,
+                customer_name: customerFullName,
+                order_number: orderNumber,
+                order_total: total.toFixed(2),
+                payment_method: paymentMethodName,
+                customer_address: customerFullAddress,
+                order_date: orderDate,
+            };
+
+            console.log('📧 Paramètres client:', clientParams);
+
+            const clientResult = await emailjs.send(
+                EMAILJS_CONFIG.SERVICE_ID,
+                EMAILJS_CONFIG.TEMPLATE_CLIENT,
+                clientParams
+            );
+
+            console.log('✅ Email client envoyé:', clientResult);
+
+            // 2. EMAIL ADMIN
+            console.log('📧 Envoi email admin...');
+            const adminParams = {
+                customer_name: customerFullName,
+                customer_email: customerInfo.email,
+                customer_phone: customerInfo.phone,
+                customer_full_address: customerFullAddress,
+                order_number: orderNumber,
+                order_total: total.toFixed(2),
+                payment_method: paymentMethodName,
+                cart_items: cartItemsText,
+                order_date: orderDate,
+            };
+
+            console.log('📧 Paramètres admin:', adminParams);
+
+            const adminResult = await emailjs.send(
+                EMAILJS_CONFIG.SERVICE_ID,
+                EMAILJS_CONFIG.TEMPLATE_ADMIN,
+                adminParams
+            );
+
+            console.log('✅ Email admin envoyé:', adminResult);
+            console.log('✅ TOUS LES EMAILS ENVOYÉS AVEC SUCCÈS !');
+
+            return {
+                success: true,
+                orderNumber,
+                clientStatus: clientResult.status,
+                adminStatus: adminResult.status
+            };
+
+        } catch (error) {
+            console.error('❌ ERREUR envoi emails:', error);
+            console.error('❌ Type d\'erreur:', error.name);
+            console.error('❌ Message:', error.message);
+            console.error('❌ Détails:', error.text || 'Pas de détails supplémentaires');
+
+            // Même en cas d'erreur email, on continue le processus
+            return {
+                success: false,
+                error: error.message,
+                orderNumber
+            };
+        }
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCustomerInfo(prev => ({
@@ -77,30 +181,53 @@ const Checkout = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('🚀 Début traitement commande...');
 
+        // Validation
         if (!selectedPayment) {
             alert('Veuillez sélectionner une méthode de paiement');
             return;
         }
 
+        if (cartItems.length === 0) {
+            alert('Votre panier est vide');
+            return;
+        }
+
         setIsProcessing(true);
 
-        // Simuler le traitement
-        setTimeout(() => {
-            setOrderSubmitted(true);
-            setIsProcessing(false);
+        try {
+            // Générer le numéro de commande
+            const orderNumber = `PLF-${Date.now()}`;
+            console.log('📝 Numéro de commande:', orderNumber);
 
-            // Vider le panier après commande
+            // Envoyer les emails
+            const emailResult = await sendOrderEmails(orderNumber);
+
+            if (emailResult.success) {
+                console.log('✅ Commande traitée avec succès - Emails envoyés');
+            } else {
+                console.log('⚠️ Commande traitée - Erreur emails:', emailResult.error);
+                // On continue quand même le processus
+            }
+
+            // Finaliser la commande
+            setOrderSubmitted(true);
+
+            // Vider le panier
             localStorage.setItem('plf_cart', '[]');
             window.dispatchEvent(new Event('cart-updated'));
-        }, 2000);
-    };
 
-    const copyToClipboard = (text) => {
-        navigator.clipboard.writeText(text);
-        alert('Copié dans le presse-papiers !');
+            console.log('🎉 Commande finalisée avec succès !');
+
+        } catch (error) {
+            console.error('❌ Erreur critique:', error);
+            alert('Une erreur est survenue. Veuillez réessayer ou nous contacter.');
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const goBack = () => {
@@ -115,6 +242,7 @@ const Checkout = () => {
         window.location.href = '/';
     };
 
+    // Si commande validée, afficher la confirmation
     if (orderSubmitted) {
         return (
             <OrderConfirmation
@@ -127,6 +255,7 @@ const Checkout = () => {
         );
     }
 
+    // Si panier vide
     if (cartItems.length === 0) {
         return (
             <div className="checkout-empty">
@@ -159,7 +288,7 @@ const Checkout = () => {
                 <div className="checkout-layout">
                     {/* Formulaire principal */}
                     <div className="checkout-main">
-                        <div onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}>
                             {/* Informations client */}
                             <div className="checkout-section">
                                 <h3>Informations de livraison</h3>
@@ -172,6 +301,7 @@ const Checkout = () => {
                                             value={customerInfo.email}
                                             onChange={handleInputChange}
                                             required
+                                            placeholder="votre@email.com"
                                         />
                                     </div>
                                     <div className="form-group">
@@ -182,6 +312,7 @@ const Checkout = () => {
                                             value={customerInfo.firstName}
                                             onChange={handleInputChange}
                                             required
+                                            placeholder="Prénom"
                                         />
                                     </div>
                                     <div className="form-group">
@@ -192,6 +323,7 @@ const Checkout = () => {
                                             value={customerInfo.lastName}
                                             onChange={handleInputChange}
                                             required
+                                            placeholder="Nom"
                                         />
                                     </div>
                                     <div className="form-group">
@@ -202,6 +334,7 @@ const Checkout = () => {
                                             value={customerInfo.phone}
                                             onChange={handleInputChange}
                                             required
+                                            placeholder="06 12 34 56 78"
                                         />
                                     </div>
                                     <div className="form-group full-width">
@@ -212,6 +345,7 @@ const Checkout = () => {
                                             value={customerInfo.address}
                                             onChange={handleInputChange}
                                             required
+                                            placeholder="123 Rue de la Paix"
                                         />
                                     </div>
                                     <div className="form-group">
@@ -222,6 +356,7 @@ const Checkout = () => {
                                             value={customerInfo.city}
                                             onChange={handleInputChange}
                                             required
+                                            placeholder="Paris"
                                         />
                                     </div>
                                     <div className="form-group">
@@ -232,6 +367,7 @@ const Checkout = () => {
                                             value={customerInfo.zipCode}
                                             onChange={handleInputChange}
                                             required
+                                            placeholder="75001"
                                         />
                                     </div>
                                 </div>
@@ -276,66 +412,23 @@ const Checkout = () => {
                                         );
                                     })}
                                 </div>
-
-                                {/* Détails spécifiques par méthode */}
-                                {selectedPayment === 'virement' && (
-                                    <div className="payment-specific virement-details">
-                                        <h4>Informations de virement</h4>
-                                        <p>Après validation de votre commande, vous recevrez par email les coordonnées bancaires pour effectuer le virement.</p>
-                                        <div className="warning">
-                                            <AlertCircle size={16} />
-                                            <span>Votre commande sera expédiée après réception du paiement (2-3 jours ouvrés)</span>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {selectedPayment === 'bitcoin' && (
-                                    <div className="payment-specific bitcoin-details">
-                                        <h4>Paiement Bitcoin</h4>
-                                        <p>Montant à payer: <strong>{total}€ = ~0.0234 BTC</strong> (taux en temps réel)</p>
-                                        <div className="bitcoin-address">
-                                            <label>Adresse Bitcoin:</label>
-                                            <div className="address-field">
-                                                <input
-                                                    type="text"
-                                                    value="bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
-                                                    readOnly
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => copyToClipboard('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')}
-                                                >
-                                                    <Copy size={16} />
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="info">
-                                            <CheckCircle size={16} />
-                                            <span>Transaction confirmée automatiquement après 3 confirmations</span>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {selectedPayment === 'applepay' && (
-                                    <div className="payment-specific applepay-details">
-                                        <h4>Apple Pay</h4>
-                                        <p>Utilisez Touch ID ou Face ID pour payer en toute sécurité.</p>
-                                        <div className="info">
-                                            <CheckCircle size={16} />
-                                            <span>Paiement instantané et sécurisé</span>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
 
                             <button
-                                onClick={handleSubmit}
+                                type="submit"
                                 className="btn-place-order"
                                 disabled={isProcessing}
                             >
-                                {isProcessing ? 'Traitement...' : `Passer la commande - ${total}€`}
+                                {isProcessing ? (
+                                    <>
+                                        <span className="spinner"></span>
+                                        Traitement en cours...
+                                    </>
+                                ) : (
+                                    `Passer la commande - ${total.toFixed(2)}€`
+                                )}
                             </button>
-                        </div>
+                        </form>
                     </div>
 
                     {/* Résumé commande */}
@@ -532,48 +625,6 @@ const Checkout = () => {
           top: 20px;
           right: 20px;
         }
-        .payment-specific {
-          margin-top: 20px;
-          padding: 20px;
-          background: #f8fafc;
-          border-radius: 8px;
-        }
-        .payment-specific h4 {
-          color: #1e293b;
-          margin-bottom: 12px;
-        }
-        .address-field {
-          display: flex;
-          gap: 8px;
-        }
-        .address-field input {
-          flex: 1;
-          font-family: monospace;
-        }
-        .address-field button {
-          background: #dc2626;
-          color: white;
-          border: none;
-          padding: 12px;
-          border-radius: 8px;
-          cursor: pointer;
-        }
-        .warning, .info {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-top: 12px;
-          padding: 12px;
-          border-radius: 8px;
-        }
-        .warning {
-          background: #fef3cd;
-          color: #92400e;
-        }
-        .info {
-          background: #dcfce7;
-          color: #166534;
-        }
         .btn-place-order {
           width: 100%;
           background: linear-gradient(135deg, #dc2626, #b91c1c);
@@ -585,13 +636,29 @@ const Checkout = () => {
           font-weight: 600;
           cursor: pointer;
           transition: transform 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
         }
         .btn-place-order:hover:not(:disabled) {
           transform: translateY(-2px);
         }
         .btn-place-order:disabled {
-          opacity: 0.6;
+          opacity: 0.7;
           cursor: not-allowed;
+          transform: none;
+        }
+        .spinner {
+          width: 20px;
+          height: 20px;
+          border: 2px solid rgba(255,255,255,0.3);
+          border-radius: 50%;
+          border-top-color: white;
+          animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
         }
         .order-summary {
           height: fit-content;
@@ -687,55 +754,6 @@ const Checkout = () => {
 
 // Composant de confirmation de commande
 const OrderConfirmation = ({ paymentMethod, orderTotal, customerInfo, goHome, goToPalettes }) => {
-    const getPaymentInstructions = () => {
-        switch (paymentMethod) {
-            case 'virement':
-                return (
-                    <div className="payment-instructions virement">
-                        <h3>Instructions pour le virement bancaire</h3>
-                        <div className="bank-details">
-                            <p><strong>Bénéficiaire:</strong> PLF - Palette Liquidation France</p>
-                            <p><strong>IBAN:</strong> FR76 1751 2000 0012 3456 789</p>
-                            <p><strong>BIC:</strong> PLFBFRPP</p>
-                            <p><strong>Montant:</strong> {orderTotal}€</p>
-                            <p><strong>Référence:</strong> CMD-{Date.now()}</p>
-                        </div>
-                        <div className="warning">
-                            <AlertCircle size={16} />
-                            <span>Votre commande sera expédiée après réception du virement (2-3 jours ouvrés)</span>
-                        </div>
-                    </div>
-                );
-            case 'bitcoin':
-                return (
-                    <div className="payment-instructions bitcoin">
-                        <h3>Paiement Bitcoin en cours</h3>
-                        <p>Nous surveillons la blockchain pour votre transaction.</p>
-                        <div className="bitcoin-status">
-                            <p><strong>Montant:</strong> ~0.0234 BTC</p>
-                            <p><strong>Adresse:</strong> bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</p>
-                            <div className="status-pending">
-                                <Clock size={16} />
-                                <span>En attente de confirmation (0/3)</span>
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 'applepay':
-                return (
-                    <div className="payment-instructions applepay">
-                        <h3>Paiement Apple Pay confirmé</h3>
-                        <div className="success">
-                            <CheckCircle size={16} />
-                            <span>Paiement de {orderTotal}€ traité avec succès</span>
-                        </div>
-                    </div>
-                );
-            default:
-                return null;
-        }
-    };
-
     return (
         <div className="order-confirmation">
             <div className="container">
@@ -749,21 +767,39 @@ const OrderConfirmation = ({ paymentMethod, orderTotal, customerInfo, goHome, go
                     <div className="confirmation-details">
                         <div className="customer-details">
                             <h3>Informations de livraison</h3>
-                            <p>{customerInfo.firstName} {customerInfo.lastName}</p>
-                            <p>{customerInfo.address}</p>
-                            <p>{customerInfo.zipCode} {customerInfo.city}</p>
-                            <p>{customerInfo.email}</p>
+                            <div className="delivery-card">
+                                <div className="customer-name">{customerInfo.firstName} {customerInfo.lastName}</div>
+                                <div className="customer-address">
+                                    <p>{customerInfo.address}</p>
+                                    <p>{customerInfo.zipCode} {customerInfo.city}, {customerInfo.country}</p>
+                                </div>
+                                <div className="customer-contact">
+                                    <p><strong>Email:</strong> {customerInfo.email}</p>
+                                    <p><strong>Téléphone:</strong> {customerInfo.phone}</p>
+                                </div>
+                            </div>
                         </div>
-
-                        {getPaymentInstructions()}
 
                         <div className="next-steps">
                             <h3>Prochaines étapes</h3>
-                            <ul>
-                                <li>Vous recevrez un email de confirmation</li>
-                                <li>Suivi de votre commande par email</li>
-                                <li>Livraison sous 48h après validation du paiement</li>
-                            </ul>
+                            <div className="steps-list">
+                                <div className="step-item">
+                                    <span className="step-number">1</span>
+                                    <span>Vous recevrez un email de confirmation</span>
+                                </div>
+                                <div className="step-item">
+                                    <span className="step-number">2</span>
+                                    <span>Un agent vous contactera pour finaliser le paiement</span>
+                                </div>
+                                <div className="step-item">
+                                    <span className="step-number">3</span>
+                                    <span>Suivi de votre commande par email</span>
+                                </div>
+                                <div className="step-item">
+                                    <span className="step-number">4</span>
+                                    <span>Livraison sous 48h après validation du paiement</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -779,121 +815,127 @@ const OrderConfirmation = ({ paymentMethod, orderTotal, customerInfo, goHome, go
             </div>
 
             <style jsx>{`
-        .order-confirmation {
-          padding: 120px 0 80px;
-          min-height: 100vh;
-          background: #f8fafc;
-        }
-        .confirmation-content {
-          max-width: 800px;
-          margin: 0 auto;
-          text-align: center;
-          background: white;
-          padding: 60px;
-          border-radius: 12px;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .success-icon {
-          color: #059669;
-          margin-bottom: 30px;
-        }
-        .confirmation-content h1 {
-          color: #1e293b;
-          font-size: 2.5rem;
-          font-weight: 700;
-          margin-bottom: 15px;
-        }
-        .order-number {
-          color: #6b7280;
-          font-size: 1.1rem;
-          margin-bottom: 40px;
-        }
-        .confirmation-details {
-          text-align: left;
-          margin: 40px 0;
-        }
-        .confirmation-details h3 {
-          color: #1e293b;
-          font-weight: 600;
-          margin: 30px 0 15px;
-          padding-bottom: 10px;
-          border-bottom: 2px solid #e5e7eb;
-        }
-        .payment-instructions {
-          background: #f8fafc;
-          padding: 20px;
-          border-radius: 8px;
-          margin: 20px 0;
-        }
-        .bank-details p {
-          margin: 8px 0;
-          color: #374151;
-        }
-        .bitcoin-status p {
-          margin: 8px 0;
-          font-family: monospace;
-        }
-        .status-pending, .success, .warning {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-top: 15px;
-          padding: 12px;
-          border-radius: 8px;
-        }
-        .status-pending {
-          background: #fef3cd;
-          color: #92400e;
-        }
-        .success {
-          background: #dcfce7;
-          color: #166534;
-        }
-        .warning {
-          background: #fef3cd;
-          color: #92400e;
-        }
-        .next-steps ul {
-          list-style: none;
-          padding: 0;
-        }
-        .next-steps li {
-          padding: 8px 0;
-          color: #6b7280;
-        }
-        .next-steps li:before {
-          content: "✓";
-          color: #059669;
-          font-weight: bold;
-          margin-right: 10px;
-        }
-        .confirmation-actions {
-          display: flex;
-          gap: 20px;
-          justify-content: center;
-          margin-top: 40px;
-        }
-        .btn-primary, .btn-secondary {
-          padding: 15px 30px;
-          border-radius: 50px;
-          font-weight: 600;
-          transition: transform 0.3s;
-          cursor: pointer;
-          border: none;
-        }
-        .btn-primary {
-          background: linear-gradient(135deg, #dc2626, #b91c1c);
-          color: white;
-        }
-        .btn-secondary {
-          background: white;
-          color: #dc2626;
-          border: 2px solid #dc2626;
-        }
-        .btn-primary:hover, .btn-secondary:hover {
-          transform: translateY(-2px);
-        }
-      `}</style>
+                .order-confirmation {
+                    padding: 120px 0 80px;
+                    min-height: 100vh;
+                    background: #f8fafc;
+                }
+                .confirmation-content {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    text-align: center;
+                    background: white;
+                    padding: 60px;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                }
+                .success-icon {
+                    color: #dc2626;
+                    margin-bottom: 30px;
+                }
+                .confirmation-content h1 {
+                    color: #1e293b;
+                    font-size: 2.5rem;
+                    font-weight: 700;
+                    margin-bottom: 15px;
+                }
+                .order-number {
+                    color: #6b7280;
+                    font-size: 1.1rem;
+                    margin-bottom: 40px;
+                }
+                .confirmation-details {
+                    text-align: left;
+                    margin: 40px 0;
+                    display: grid;
+                    gap: 30px;
+                }
+                .confirmation-details h3 {
+                    color: #dc2626;
+                    font-weight: 600;
+                    margin-bottom: 20px;
+                    font-size: 1.25rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                .delivery-card {
+                    background: #fef2f2;
+                    border: 2px solid #dc2626;
+                    border-radius: 12px;
+                    padding: 25px;
+                    margin-bottom: 20px;
+                }
+                .customer-name {
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                    color: #1e293b;
+                    margin-bottom: 15px;
+                }
+                .customer-address {
+                    margin-bottom: 15px;
+                }
+                .customer-address p, .customer-contact p {
+                    margin: 5px 0;
+                    color: #374151;
+                    line-height: 1.5;
+                }
+                .steps-list {
+                    background: #f8fafc;
+                    border-radius: 12px;
+                    padding: 20px;
+                }
+                .step-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    padding: 12px 0;
+                    color: #374151;
+                    border-bottom: 1px solid #e5e7eb;
+                }
+                .step-item:last-child {
+                    border-bottom: none;
+                }
+                .step-number {
+                    background: #dc2626;
+                    color: white;
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                    flex-shrink: 0;
+                }
+                .confirmation-actions {
+                    display: flex;
+                    gap: 20px;
+                    justify-content: center;
+                    margin-top: 40px;
+                }
+                .btn-primary, .btn-secondary {
+                    padding: 15px 30px;
+                    border-radius: 50px;
+                    font-weight: 600;
+                    transition: transform 0.3s;
+                    cursor: pointer;
+                    border: none;
+                }
+                .btn-primary {
+                    background: linear-gradient(135deg, #dc2626, #b91c1c);
+                    color: white;
+                }
+                .btn-secondary {
+                    background: white;
+                    color: #dc2626;
+                    border: 2px solid #dc2626;
+                }
+                .btn-primary:hover, .btn-secondary:hover {
+                    transform: translateY(-2px);
+                }
+            `}</style>
         </div>
     );
 };

@@ -10,13 +10,14 @@ import {
   CheckCircle,
   ArrowRight
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   const stats = [
-    { number: '10,000+', label: 'Palettes vendues', icon: Package },
-    { number: '5,000+', label: 'Clients satisfaits', icon: Users },
+    { number: '500+', label: 'Palettes vendues', icon: Package },
+    { number: '100+', label: 'Clients satisfaits', icon: Users },
     { number: '3', label: 'Années d\'expérience', icon: Award },
-    { number: '98%', label: 'Taux de satisfaction', icon: Star }
+    { number: '99%', label: 'Taux de satisfaction', icon: Star }
   ];
 
   const values = [
@@ -229,13 +230,13 @@ const About = () => {
             <h2>Prêt à commencer ?</h2>
             <p>Découvrez nos palettes de liquidation et trouvez les opportunités qui vous correspondent.</p>
             <div className="cta-buttons">
-              <button className="btn-primary">
+              <Link to="/palettes" className="btn-primary">
                 Voir les palettes
                 <ArrowRight size={20} />
-              </button>
-              <button className="btn-secondary">
+              </Link>
+              <Link to="/contact" className="btn-secondary">
                 Nous contacter
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -18,20 +18,20 @@ const Header = () => {
   }, []);
 
   // Simulation du nombre d'articles dans le panier
-useEffect(() => {
-  const updateCartCount = () => {
-    const cart = JSON.parse(localStorage.getItem('plf_cart') || '[]');
-    setCartCount(cart.reduce((sum, item) => sum + item.quantity, 0));
-  };
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('plf_cart') || '[]');
+      setCartCount(cart.reduce((sum, item) => sum + item.quantity, 0));
+    };
 
-  // Initial load
-  updateCartCount();
+    // Initial load
+    updateCartCount();
 
-  // Listen for cart updates
-  window.addEventListener('cart-updated', updateCartCount);
-  
-  return () => window.removeEventListener('cart-updated', updateCartCount);
-}, []);
+    // Listen for cart updates
+    window.addEventListener('cart-updated', updateCartCount);
+
+    return () => window.removeEventListener('cart-updated', updateCartCount);
+  }, []);
 
   const navItems = [
     { path: '/', label: 'Accueil', icon: null },
@@ -84,7 +84,7 @@ useEffect(() => {
                 <span className="cart-badge">{cartCount}</span>
               )}
             </Link>
-            <button 
+            <button
               className="menu-toggle"
               onClick={toggleMenu}
               aria-label="Toggle menu"
@@ -113,8 +113,8 @@ useEffect(() => {
               );
             })}
             <div className="nav-mobile-divider"></div>
-            <Link 
-              to="/cart" 
+            <Link
+              to="/cart"
               className="nav-mobile-link cart-mobile"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -126,7 +126,7 @@ useEffect(() => {
 
         {/* Overlay pour mobile */}
         {isMenuOpen && (
-          <div 
+          <div
             className="nav-overlay"
             onClick={() => setIsMenuOpen(false)}
           />

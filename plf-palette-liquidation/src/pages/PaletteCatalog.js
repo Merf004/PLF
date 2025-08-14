@@ -17,7 +17,7 @@ import { getAvailablePalettes } from '../data/palettes';
 
 const PaletteCatalog = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [palettesPerPage] = useState(9);
+  const [palettesPerPage] = useState(6);
   const [viewMode, setViewMode] = useState('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('featured');

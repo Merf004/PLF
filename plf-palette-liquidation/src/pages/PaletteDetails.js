@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { 
+import {
   ArrowLeft,
   Package,
   TrendingUp,
@@ -61,42 +61,42 @@ const PaletteDetails = () => {
   }
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       prev === palette.images.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       prev === 0 ? palette.images.length - 1 : prev - 1
     );
   };
 
-const addToCart = () => {
-  const cart = JSON.parse(localStorage.getItem('plf_cart') || '[]');
-  const existingItem = cart.find(item => item.id === palette.id);
-  
-  if (existingItem) {
-    existingItem.quantity += quantity;
-  } else {
-    cart.push({
-      id: palette.id,
-      name: palette.title,
-      description: palette.description,
-      price: palette.price,
-      originalValue: palette.originalPrice,
-      image: palette.images[0],
-      category: palette.category,
-      quantity: quantity
-    });
-  }
-  
-  localStorage.setItem('plf_cart', JSON.stringify(cart));
-  
-  // Notify header to update cart count
-  window.dispatchEvent(new Event('cart-updated'));
+  const addToCart = () => {
+    const cart = JSON.parse(localStorage.getItem('plf_cart') || '[]');
+    const existingItem = cart.find(item => item.id === palette.id);
 
-};
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cart.push({
+        id: palette.id,
+        name: palette.title,
+        description: palette.description,
+        price: palette.price,
+        originalValue: palette.originalPrice,
+        image: palette.images[0],
+        category: palette.category,
+        quantity: quantity
+      });
+    }
+
+    localStorage.setItem('plf_cart', JSON.stringify(cart));
+
+    // Notify header to update cart count
+    window.dispatchEvent(new Event('cart-updated'));
+
+  };
 
   const shareProduct = async () => {
     if (navigator.share) {
@@ -140,8 +140,8 @@ const addToCart = () => {
             {/* Image Gallery */}
             <div className="product-gallery">
               <div className="main-image">
-                <img 
-                  src={palette.images[currentImageIndex]} 
+                <img
+                  src={palette.images[currentImageIndex]}
                   alt={palette.title}
                 />
                 {palette.images.length > 1 && (
@@ -160,7 +160,7 @@ const addToCart = () => {
                   {palette.limitedTime && <span className="badge limited">⏰ Offre limitée</span>}
                 </div>
               </div>
-              
+
               {palette.images.length > 1 && (
                 <div className="image-thumbnails">
                   {palette.images.map((image, index) => (
@@ -181,7 +181,7 @@ const addToCart = () => {
               <div className="product-header">
                 <h1>{palette.title}</h1>
                 <div className="product-actions-header">
-                  <button 
+                  <button
                     className={`action-btn ${isLiked ? 'liked' : ''}`}
                     onClick={() => setIsLiked(!isLiked)}
                   >
@@ -196,9 +196,9 @@ const addToCart = () => {
               <div className="product-rating">
                 <div className="stars">
                   {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      size={16} 
+                    <Star
+                      key={i}
+                      size={16}
                       fill={i < Math.floor(palette.rating) ? 'currentColor' : 'none'}
                     />
                   ))}
@@ -244,7 +244,7 @@ const addToCart = () => {
                 <div className="quantity-selector">
                   <label>Quantité:</label>
                   <div className="quantity-controls">
-                    <button 
+                    <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       disabled={quantity <= 1}
                     >
@@ -291,21 +291,21 @@ const addToCart = () => {
       <section className="product-tabs">
         <div className="container">
           <div className="tabs-header">
-            <button 
+            <button
               className={`tab-btn ${selectedTab === 'description' ? 'active' : ''}`}
               onClick={() => setSelectedTab('description')}
             >
               <Info size={18} />
               Description détaillée
             </button>
-            <button 
+            <button
               className={`tab-btn ${selectedTab === 'contents' ? 'active' : ''}`}
               onClick={() => setSelectedTab('contents')}
             >
               <Package size={18} />
               Contenu de la palette
             </button>
-            <button 
+            <button
               className={`tab-btn ${selectedTab === 'delivery' ? 'active' : ''}`}
               onClick={() => setSelectedTab('delivery')}
             >
@@ -319,8 +319,8 @@ const addToCart = () => {
               <div className="tab-content">
                 <h3>À propos de cette palette</h3>
                 <p>
-                  Cette palette {palette.title.toLowerCase()} représente une opportunité exceptionnelle 
-                  pour les revendeurs et entrepreneurs. Avec un potentiel de profit de {palette.estimatedProfit}, 
+                  Cette palette {palette.title.toLowerCase()} représente une opportunité exceptionnelle
+                  pour les revendeurs et entrepreneurs. Avec un potentiel de profit de {palette.estimatedProfit},
                   elle contient {palette.quantity} articles soigneusement sélectionnés.
                 </p>
                 <h4>Caractéristiques principales :</h4>
@@ -370,7 +370,7 @@ const addToCart = () => {
                 <div className="content-warning">
                   <AlertCircle size={20} />
                   <p>
-                    <strong>Important:</strong> Le contenu exact peut varier légèrement. 
+                    <strong>Important:</strong> Le contenu exact peut varier légèrement.
                     Les photos sont représentatives de la qualité et du type de produits inclus.
                   </p>
                 </div>

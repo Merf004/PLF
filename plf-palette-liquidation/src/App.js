@@ -10,6 +10,11 @@ import Cart from './pages/Cart';
 import './styles/index.css';
 import ScrollToTop from './ScrolToTop';
 import Checkout from './pages/Checkout';
+import CGU from './pages/CGU';
+import CGV from './pages/CGV';
+import Cookies from './pages/Cookies';
+import Privacy from './pages/Privacy';
+
 
 function App() {
   return (
@@ -23,8 +28,12 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/legal/cgu" element={<CGU />} />
+          <Route path="/legal/cgv" element={<CGV />} />
+          <Route path="/legal/privacy" element={<Privacy />} />
+          <Route path="/legal/cookies" element={<Cookies />} />
         </Routes>
-        <ScrollToTop/>
+        <ScrollToTop />
       </Layout>
     </Router>
   );

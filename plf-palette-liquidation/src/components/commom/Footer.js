@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Package, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Facebook, 
-  Instagram, 
+import {
+  Package,
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Instagram,
   Twitter,
   ArrowRight,
   Shield,
@@ -64,8 +64,8 @@ const Footer = () => {
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className="feature-card"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
@@ -99,8 +99,8 @@ const Footer = () => {
                 </div>
               </div>
               <p className="footer-description">
-                Votre partenaire de confiance pour l'achat de palettes de liquidation. 
-                Découvrez des opportunités uniques de revente avec nos palettes 
+                Votre partenaire de confiance pour l'achat de palettes de liquidation.
+                Découvrez des opportunités uniques de revente avec nos palettes
                 soigneusement sélectionnées.
               </p>
               <div className="social-links">
@@ -152,25 +152,25 @@ const Footer = () => {
               <div className="contact-info">
                 <div className="contact-item">
                   <Mail size={18} />
-                  <span>contact@plf-palettes.fr</span>
+                  <span>liquidation.palette@gmail.com</span>
                 </div>
                 <div className="contact-item">
                   <Phone size={18} />
-                  <span>+33 1 23 45 67 89</span>
+                  <span>+33 7 56 86 75 16</span>
                 </div>
                 <div className="contact-item">
                   <MapPin size={18} />
-                  <span>Paris, France</span>
+                  <span>281 Rue Blanche SELVA, 66000 Perpignan, France</span>
                 </div>
               </div>
-              
+
               {/* Newsletter */}
               <div className="newsletter">
                 <h4>Newsletter</h4>
                 <p>Recevez nos meilleures offres</p>
                 <div className="newsletter-form">
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     placeholder="Votre email"
                     className="newsletter-input"
                   />

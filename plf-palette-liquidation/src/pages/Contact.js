@@ -16,6 +16,8 @@ import {
   ArrowRight
 } from 'lucide-react';
 
+import { Link } from 'react-router-dom';
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -54,21 +56,21 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email',
-      value: 'contact@plf-palettes.fr',
+      value: 'liquidation.palette@gmail.com',
       subtitle: 'Réponse sous 24h',
       color: '#dc2626'
     },
     {
       icon: Phone,
       title: 'Téléphone',
-      value: '+33 1 23 45 67 89',
+      value: '+33 7 56 86 75 16',
       subtitle: 'Lun-Ven 9h-18h',
       color: '#059669'
     },
     {
       icon: MapPin,
       title: 'Adresse',
-      value: 'Paris, France',
+      value: '281 Rue Blanche SELVA, 66000 Perpignan, France',
       subtitle: 'Sur rendez-vous',
       color: '#7c3aed'
     },
@@ -135,7 +137,7 @@ const Contact = () => {
                 <span className="stat-label">Temps de réponse</span>
               </div>
               <div className="stat">
-                <span className="stat-number">98%</span>
+                <span className="stat-number">99%</span>
                 <span className="stat-label">Satisfaction client</span>
               </div>
               <div className="stat">
@@ -370,10 +372,10 @@ const Contact = () => {
           <div className="cta-content">
             <h2>Prêt à découvrir nos palettes ?</h2>
             <p>Parcourez notre sélection de palettes de liquidation et trouvez les opportunités qui vous correspondent.</p>
-            <button className="btn-primary">
-              Voir les palettes disponibles
+            <Link to="/palettes" className="btn-primary">
+              Voir les palettes
               <ArrowRight size={20} />
-            </button>
+            </Link>
           </div>
         </div>
       </section>

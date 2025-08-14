@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
           <div className="loading-logo">
             <div className="logo-icon">
               <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
-                <path d="M20 6h-2V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM8 4h8v2H8V4zm12 14H4V8h2v2h2V8h8v2h2V8h2v10z"/>
+                <path d="M20 6h-2V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM8 4h8v2H8V4zm12 14H4V8h2v2h2V8h8v2h2V8h2v10z" />
               </svg>
             </div>
             <div className="loading-text">
@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
           </div>
           <p className="loading-message">Chargement des meilleures offres...</p>
         </div>
-        
+
         <style jsx>{`
           .loading-screen {
             position: fixed;
@@ -176,7 +176,7 @@ const Layout = ({ children }) => {
   return (
     <div className="layout">
       <Header />
-      
+
       <main className="main-content">
         <div className="content-wrapper">
           {children}
@@ -187,7 +187,7 @@ const Layout = ({ children }) => {
 
       {/* Bouton retour en haut */}
       {showScrollTop && (
-        <button 
+        <button
           className="scroll-top-btn"
           onClick={scrollToTop}
           aria-label="Retour en haut"
@@ -199,8 +199,8 @@ const Layout = ({ children }) => {
       {/* Particules d'animation de fond */}
       <div className="bg-particles">
         {[...Array(20)].map((_, i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             className="particle"
             style={{
               left: `${Math.random() * 100}%`,
