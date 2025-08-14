@@ -10,7 +10,7 @@ const CGU = () => {
         <h2>1. Objet</h2>
         <p>
           Les présentes Conditions Générales d'Utilisation (CGU) régissent l'utilisation du site internet 
-          de PLF - Palette Liquidation France, accessible à l'adresse [votre-domaine.com].
+          de PLF - Palette Liquidation France.
         </p>
         <p>
           PLF est spécialisée dans la vente de palettes de liquidation provenant de grandes enseignes 
