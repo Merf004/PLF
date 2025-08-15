@@ -351,9 +351,7 @@ const PaletteCatalog = () => {
 
             <div className="pagination-info">
               <p>
-                Page {currentPage} sur {totalPages} -
-                Affichage de {indexOfFirstPalette + 1} à {Math.min(indexOfLastPalette, filteredPalettes.length)}
-                sur {filteredPalettes.length} palette{filteredPalettes.length > 1 ? 's' : ''}
+                Page {currentPage} sur {totalPages}
               </p>
             </div>
           </div>

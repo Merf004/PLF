@@ -185,6 +185,22 @@ const Layout = ({ children }) => {
 
       <Footer />
 
+      {/* Bouton WhatsApp */}
+<a
+  href="https://wa.me/message/FOGAF3A4N5F3N1"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="whatsapp-btn"
+  aria-label="Contacter via WhatsApp"
+>
+  <img 
+  src="/images/whatsapp.png" 
+  alt="WhatsApp" 
+  width="50" 
+  height="50"
+/>
+</a>
+
       {/* Bouton retour en haut */}
       {showScrollTop && (
         <button
@@ -260,6 +276,42 @@ const Layout = ({ children }) => {
         .scroll-top-btn:active {
           transform: translateY(-3px) scale(1.05);
         }
+
+        .whatsapp-btn {
+  position: fixed;
+  bottom: 6rem; /* 60px au-dessus du bouton scroll */
+  right: 2rem;
+  z-index: 1000;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  animation: slideInUp 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
+  background: linear-gradient(135deg, #128C7E, #0D7377);
+}
+
+.whatsapp-btn:active {
+  transform: translateY(-3px) scale(1.05);
+}
+
+.whatsapp-btn:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
 
         .bg-particles {
           position: fixed;
@@ -371,6 +423,24 @@ const Layout = ({ children }) => {
           }
         }
 
+        @media (max-width: 768px) {
+  .whatsapp-btn {
+    bottom: 4.5rem;
+    right: 1rem;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .whatsapp-btn {
+    bottom: 4rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+  }
+}
+
         /* Gestion des animations réduites pour l'accessibilité */
         @media (prefers-reduced-motion: reduce) {
           .particle,
@@ -382,6 +452,17 @@ const Layout = ({ children }) => {
           .scroll-top-btn:hover {
             transform: none;
           }
+
+          .whatsapp-btn,
+.particle,
+.scroll-top-btn,
+.content-wrapper {
+  animation: none;
+}
+
+.whatsapp-btn:hover {
+  transform: none;
+}
         }
 
         /* Focus pour l'accessibilité */
