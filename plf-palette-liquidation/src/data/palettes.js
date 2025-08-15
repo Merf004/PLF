@@ -34,7 +34,7 @@ export const palettes = [
     price: 1000,
     originalPrice: 3500,
     condition: "Grade A",
-    quantity: 150,
+    quantity: 50,
     images: [
       "/images/palettes/2 Nikes/IMG-20250811-WA0019.jpg",
       "/images/palettes/2 Nikes/IMG-20250811-WA0021.jpg",
@@ -64,12 +64,14 @@ export const palettes = [
     price: 1500,
     originalPrice: 2300,
     condition: "Grade A+",
-    quantity: 42,
+    quantity: 30,
     images: [
-      "/images/palettes/3 Iphones/IMG-20250811-WA0030.jpg",
-      "/images/palettes/3 Iphones/IMG-20250811-WA0029.jpg",
-      "/images/palettes/3 Iphones/IMG-20250811-WA0031.jpg",
-      "/images/palettes/3 Iphones/IMG-20250811-WA0032.jpg",
+      "/images/palettes/3 Iphones/IMG-20250815-WA0018.jpg",
+      "/images/palettes/3 Iphones/IMG-20250815-WA0019.jpg",
+      "/images/palettes/3 Iphones/IMG-20250815-WA0020.jpg",
+      "/images/palettes/3 Iphones/IMG-20250815-WA0021.jpg",
+      "/images/palettes/3 Iphones/IMG-20250815-WA0022.jpg",
+      "/images/palettes/3 Iphones/IMG-20250815-WA0023.jpg",
     ],
     weight: "25kg",
     dimensions: "100x60x80cm",
@@ -88,7 +90,7 @@ export const palettes = [
     price: 400,
     originalPrice: 800,
     condition: "Grade A",
-    quantity: 250,
+    quantity: 200,
     images: [
       "/images/palettes/4 Vetements ZARA/IMG-20250811-WA0004.jpg",
       "/images/palettes/4 Vetements ZARA/IMG-20250811-WA0005.jpg",
@@ -118,7 +120,7 @@ export const palettes = [
     price: 2000,
     originalPrice: 2800,
     condition: "Grade A+",
-    quantity: 32,
+    quantity: 50,
     images: [
       "/images/palettes/5 Nike Sneakers/IMG-20250811-WA0019.jpg",
       "/images/palettes/5 Nike Sneakers/IMG-20250811-WA0013.jpg",
@@ -148,7 +150,7 @@ export const palettes = [
     price: 2500,
     originalPrice: 3300,
     condition: "Grade A",
-    quantity: 175,
+    quantity: 100,
     images: [
       "/images/palettes/6 Outillage/IMG-20250811-WA0027.jpg",
       "/images/palettes/6 Outillage/IMG-20250811-WA0028.jpg",
@@ -173,7 +175,7 @@ export const palettes = [
     price: 650,
     originalPrice: 1200,
     condition: "Grade A",
-    quantity: 28,
+    quantity: 70,
     images: [
       "/images/palettes/7 Produits pour cuisine/IMG-20250811-WA0032.jpg",
       "/images/palettes/7 Produits pour cuisine/IMG-20250811-WA0033.jpg",
@@ -203,7 +205,7 @@ export const palettes = [
     price: 600,
     originalPrice: 1000,
     condition: "Grade B+",
-    quantity: 65,
+    quantity: 80,
     images: [
       "/images/palettes/8 Produits Electromenagers/IMG-20250811-WA0041.jpg",
       "/images/palettes/8 Produits Electromenagers/IMG-20250811-WA0042.jpg",
@@ -232,7 +234,7 @@ export const palettes = [
     price: 700,
     originalPrice: 1200,
     condition: "Grade A-B",
-    quantity: 18,
+    quantity: 500,
     images: [
       "/images/palettes/9 Vetement Enfant/IMG-20250811-WA0051.jpg",
       "/images/palettes/9 Vetement Enfant/IMG-20250811-WA0049.jpg",
@@ -263,7 +265,7 @@ export const palettes = [
     price: 350,
     originalPrice: 950,
     condition: "Grade A",
-    quantity: 35,
+    quantity: 350,
     images: [
       "/images/palettes/10 Produits Cosmetiques/IMG-20250811-WA0060.jpg",
       "/images/palettes/10 Produits Cosmetiques/IMG-20250811-WA0061.jpg",
@@ -291,7 +293,7 @@ export const palettes = [
     title: "Palette Chaussures Enfants Premium",
     description: "Collection complète de chaussures neuves pour enfants - baskets, sandales, bottines et chaussures scolaires, marques européennes",
     price: 1000,
-    originalPrice: 2100,
+    originalPrice: 100,
     condition: "Grade A",
     quantity: 120,
     images: [
@@ -389,7 +391,7 @@ export const palettes = [
     price: 500,
     originalPrice: 1200,
     condition: "Grade A",
-    quantity: 180,
+    quantity: 100,
     images: [
       "/images/palettes/14 Woman boots/IMG-20250811-WA0100.jpg",
       "/images/palettes/14 Woman boots/IMG-20250811-WA0099.jpg",
@@ -428,7 +430,7 @@ export const palettes = [
     price: 500,
     originalPrice: 950,
     condition: "Grade A",
-    quantity: 150,
+    quantity: 200,
     images: [
       "/images/palettes/15 Vetement SHEIN/IMG-20250811-WA0112.jpg",
       "/images/palettes/15 Vetement SHEIN/IMG-20250811-WA0114.jpg",
@@ -533,7 +535,7 @@ export const palettes = [
     price: 2000,
     originalPrice: 4500,
     condition: "Grade A",
-    quantity: 75,
+    quantity: 50,
     images: [
       "/images/palettes/18 Air Jordan/WhatsApp Image 2025-08-12 à 10.24.27_e1ec8e13.jpg",
       "/images/palettes/18 Air Jordan/WhatsApp Image 2025-08-12 à 10.24.25_f08b8997.jpg",
@@ -688,7 +690,31 @@ export const palettes = [
     origin: "Fournisseur agréé",
     estimatedProfit: "150-300€",
     rating: 4.7
-  }
+  },
+
+  {
+  id: 23,
+  title: "Palette Sneakers Nike Air Force 1 Blanches",
+  description: "Large stock de baskets Nike Air Force 1 blanches neuves dans leurs boîtes d'origine, différentes tailles disponibles",
+  price: 1500,
+  originalPrice: 4500,
+  condition: "Grade A+",
+  quantity: 50,
+  images: [
+    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500",
+    "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=500",
+    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500"
+  ],
+  weight: "65kg",
+  dimensions: "150x120x80cm",
+  content: ["Nike Air Force 1 Low Blanches", "Boîtes d'origine", "Tailles mixtes 36-46", "Modèles authentiques"],
+  available: true,
+  featured: true,
+  category: "Chaussures",
+  origin: "Surstock distributeur officiel",
+  estimatedProfit: "800-1200€",
+  rating: 4.9
+}
 
 ];
 
