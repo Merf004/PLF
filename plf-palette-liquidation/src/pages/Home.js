@@ -90,6 +90,12 @@ const Home = () => {
 
   const videos = [
     {
+      title: "Nike : style iconique, performance imbattable",
+      description: "Des modèles légendaires, alliant design tendance et confort ultime, pour affirmer votre personnalité à chaque pas. Parfait pour les passionnés de sneakers ou les revendeurs à la recherche de pièces exclusives à prix réduits.",
+      thumbnail: "./images/Nike.jpg",
+      url: "./videos/WhatsApp Vidéo 2025-08-15 à 08.40.12_1f073aef.mp4",
+    },
+    {
       title: "Montres de luxe: élégance au poignet, prix imbattables",
       description: "Des modèles prestigieux, mêlant style intemporel et précision horlogère, directement à votre portée. Idéal pour les revendeurs ou les collectionneurs à la recherche de pièces uniques à prix réduit.",
       thumbnail: "./images/montre.jpg",
@@ -754,12 +760,12 @@ const Home = () => {
           margin: 0 auto;
         }
 
-        .videos-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 2rem;
-          margin-bottom: 3rem;
-        }
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
 
         .video-card {
           background: white;

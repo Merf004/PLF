@@ -31,7 +31,7 @@ export const palettes = [
     id: 2,
     title: "Palette Chaussures Nike – Liquidation",
     description: "Lot mixte de chaussures Nike neuves en boîte, incluant baskets, running, et modèles lifestyle. Idéal pour revente en ligne ou en boutique.",
-    price: 1000,
+    price: 2000,
     originalPrice: 3500,
     condition: "Grade A",
     quantity: 50,
@@ -693,27 +693,27 @@ export const palettes = [
   },
 
   {
-  id: 23,
-  title: "Palette Sneakers Nike Air Force 1 Blanches",
-  description: "Large stock de baskets Nike Air Force 1 blanches neuves dans leurs boîtes d'origine, différentes tailles disponibles",
-  price: 1500,
-  originalPrice: 4500,
-  condition: "Grade A+",
-  quantity: 50,
-  images: [
-    "/images/palettes/23 Nike Air Force One/WhatsApp Image 2025-08-15 à 14.08.22_904d3e82.jpg",
-    "/images/palettes/23 Nike Air Force One/WhatsApp Image 2025-08-15 à 14.08.22_e35fa8a3.jpg"
-  ],
-  weight: "65kg",
-  dimensions: "150x120x80cm",
-  content: ["Nike Air Force 1 Low Blanches", "Boîtes d'origine", "Tailles mixtes 36-46", "Modèles authentiques"],
-  available: true,
-  featured: true,
-  category: "Chaussures",
-  origin: "Surstock distributeur officiel",
-  estimatedProfit: "800-1200€",
-  rating: 4.9
-}
+    id: 23,
+    title: "Palette Sneakers Nike Air Force 1 Blanches",
+    description: "Large stock de baskets Nike Air Force 1 blanches neuves dans leurs boîtes d'origine, différentes tailles disponibles",
+    price: 1500,
+    originalPrice: 4500,
+    condition: "Grade A+",
+    quantity: 50,
+    images: [
+      "/images/palettes/23 Nike Air Force One/WhatsApp Image 2025-08-15 à 14.08.22_904d3e82.jpg",
+      "/images/palettes/23 Nike Air Force One/WhatsApp Image 2025-08-15 à 14.08.22_e35fa8a3.jpg"
+    ],
+    weight: "65kg",
+    dimensions: "150x120x80cm",
+    content: ["Nike Air Force 1 Low Blanches", "Boîtes d'origine", "Tailles mixtes 36-46", "Modèles authentiques"],
+    available: true,
+    featured: false,
+    category: "Chaussures",
+    origin: "Surstock distributeur officiel",
+    estimatedProfit: "800-1200€",
+    rating: 4.9
+  }
 
 ];
 
