@@ -701,9 +701,8 @@ export const palettes = [
   condition: "Grade A+",
   quantity: 50,
   images: [
-    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500",
-    "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=500",
-    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500"
+    "/images/palettes/23 Nike Air Force One/WhatsApp Image 2025-08-15 à 14.08.22_904d3e82.jpg",
+    "/images/palettes/23 Nike Air Force One/WhatsApp Image 2025-08-15 à 14.08.22_e35fa8a3.jpg"
   ],
   weight: "65kg",
   dimensions: "150x120x80cm",
