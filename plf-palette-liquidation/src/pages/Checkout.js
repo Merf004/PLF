@@ -22,7 +22,7 @@ const Checkout = () => {
         address: '',
         city: '',
         zipCode: '',
-        country: 'France'
+        country: ''
     });
     const [orderSubmitted, setOrderSubmitted] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -82,6 +82,34 @@ const Checkout = () => {
             fee: 0,
             popular: false
         }
+    ];
+
+    // Liste des pays
+    const countries = [
+        'Afghanistan', 'Afrique du Sud', 'Albanie', 'Algérie', 'Allemagne', 'Andorre', 'Angola', 'Antigua-et-Barbuda', 'Arabie saoudite', 'Argentine', 'Arménie', 'Australie', 'Autriche', 'Azerbaïdjan',
+        'Bahamas', 'Bahreïn', 'Bangladesh', 'Barbade', 'Bélarus', 'Belgique', 'Belize', 'Bénin', 'Bhoutan', 'Bolivie', 'Bosnie-Herzégovine', 'Botswana', 'Brésil', 'Brunei', 'Bulgarie', 'Burkina Faso', 'Burundi',
+        'Cambodge', 'Cameroun', 'Canada', 'Cap-Vert', 'Chili', 'Chine', 'Chypre', 'Colombie', 'Comores', 'Congo', 'Corée du Nord', 'Corée du Sud', 'Costa Rica', 'Côte d\'Ivoire', 'Croatie', 'Cuba',
+        'Danemark', 'Djibouti', 'Dominique',
+        'Égypte', 'Émirats arabes unis', 'Équateur', 'Érythrée', 'Espagne', 'Estonie', 'Eswatini', 'États-Unis', 'Éthiopie',
+        'Fidji', 'Finlande', 'France',
+        'Gabon', 'Gambie', 'Géorgie', 'Ghana', 'Grèce', 'Grenade', 'Guatemala', 'Guinée', 'Guinée-Bissau', 'Guinée équatoriale', 'Guyana',
+        'Haïti', 'Honduras', 'Hongrie',
+        'Îles Marshall', 'Îles Salomon', 'Inde', 'Indonésie', 'Irak', 'Iran', 'Irlande', 'Islande', 'Israël', 'Italie',
+        'Jamaïque', 'Japon', 'Jordanie',
+        'Kazakhstan', 'Kenya', 'Kirghizistan', 'Kiribati', 'Koweït',
+        'Laos', 'Lesotho', 'Lettonie', 'Liban', 'Libéria', 'Libye', 'Liechtenstein', 'Lituanie', 'Luxembourg',
+        'Macédoine du Nord', 'Madagascar', 'Malaisie', 'Malawi', 'Maldives', 'Mali', 'Malte', 'Maroc', 'Maurice', 'Mauritanie', 'Mexique', 'Micronésie', 'Moldavie', 'Monaco', 'Mongolie', 'Monténégro', 'Mozambique', 'Myanmar',
+        'Namibie', 'Nauru', 'Népal', 'Nicaragua', 'Niger', 'Nigeria', 'Norvège', 'Nouvelle-Zélande',
+        'Oman', 'Ouganda', 'Ouzbékistan',
+        'Pakistan', 'Palaos', 'Panama', 'Papouasie-Nouvelle-Guinée', 'Paraguay', 'Pays-Bas', 'Pérou', 'Philippines', 'Pologne', 'Portugal',
+        'Qatar',
+        'République centrafricaine', 'République démocratique du Congo', 'République dominicaine', 'République tchèque', 'Roumanie', 'Royaume-Uni', 'Russie', 'Rwanda',
+        'Saint-Christophe-et-Niévès', 'Sainte-Lucie', 'Saint-Marin', 'Saint-Vincent-et-les-Grenadines', 'Salvador', 'Samoa', 'São Tomé-et-Príncipe', 'Sénégal', 'Serbie', 'Seychelles', 'Sierra Leone', 'Singapour', 'Slovaquie', 'Slovénie', 'Somalie', 'Soudan', 'Soudan du Sud', 'Sri Lanka', 'Suède', 'Suisse', 'Suriname', 'Syrie',
+        'Tadjikistan', 'Tanzanie', 'Tchad', 'Thaïlande', 'Timor oriental', 'Togo', 'Tonga', 'Trinité-et-Tobago', 'Tunisie', 'Turkménistan', 'Turquie', 'Tuvalu',
+        'Ukraine', 'Uruguay',
+        'Vanuatu', 'Vatican', 'Venezuela', 'Viêt Nam',
+        'Yémen',
+        'Zambie', 'Zimbabwe'
     ];
 
 
@@ -370,6 +398,20 @@ const Checkout = () => {
                                             placeholder="75001"
                                         />
                                     </div>
+                                    <div className="form-group full-width">
+                                        <label>Pays *</label>
+                                        <select
+                                            name="country"
+                                            value={customerInfo.country}
+                                            onChange={handleInputChange}
+                                            required
+                                        >
+                                            <option value="">Sélectionnez un pays</option>
+                                            {countries.map(country => (
+                                                <option key={country} value={country}>{country}</option>
+                                            ))}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
@@ -559,6 +601,22 @@ const Checkout = () => {
           outline: none;
           border-color: #dc2626;
         }
+
+        .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    background: white;
+    cursor: pointer;
+    color: #6b7280;
+}
+.form-group select:focus {
+    outline: none;
+    border-color: #dc2626;
+}
         .payment-methods {
           space-y: 12px;
         }
