@@ -31,8 +31,8 @@ export const palettes = [
     id: 2,
     title: "Palette Chaussures Nike – Liquidation",
     description: "Lot mixte de chaussures Nike neuves en boîte, incluant baskets, running, et modèles lifestyle. Idéal pour revente en ligne ou en boutique.",
-    price: 2000,
-    originalPrice: 3500,
+    price: 1000,
+    originalPrice: 2500,
     condition: "Grade A",
     quantity: 50,
     images: [
