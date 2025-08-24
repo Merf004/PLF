@@ -34,7 +34,7 @@ export const palettes = [
     price: 1000,
     originalPrice: 2500,
     condition: "Grade A",
-    quantity: 50,
+    quantity: 100,
     images: [
       "/images/palettes/2 Nikes/IMG-20250811-WA0019.jpg",
       "/images/palettes/2 Nikes/IMG-20250811-WA0021.jpg",
